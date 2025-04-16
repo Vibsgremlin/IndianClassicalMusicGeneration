@@ -87,4 +87,4 @@ This project is licensed under the **MIT License**.
 
 ---
 ## **Author**
-Developed by **Your Name** – [GitHub Profile](https://github.com/your-username) 🚀
+Developed by Panitra – https://github.com/Vibsgremlin 
