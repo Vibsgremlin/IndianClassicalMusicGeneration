@@ -1,0 +1,6 @@
+Num GPUs Available: 1
+Loading MIDI file: sample.mid
+Epoch 1/3
+Epoch 2/3
+Epoch 3/3
+MIDI file successfully saved as generated_music.mid

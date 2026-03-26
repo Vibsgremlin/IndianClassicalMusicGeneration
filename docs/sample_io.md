@@ -1,19 +1,13 @@
 # Sample Inputs and Outputs
 
-## Sample input
-- A folder of `.mid` or `.midi` files under the configured dataset path
-- UI selections such as:
-  - Raga: `Yaman`
-  - Tala: `Teental`
-  - Instrument: `Sitar`
+## Example files
+- `examples/generation_config.json`
+- `examples/sample_generated_sequence.txt`
+- `outputs/training_log.txt`
+- root-level `generated_music.mid`
 
-## Sample output
-- Generated symbolic note continuation
-- Downloadable file: `generated_music.mid`
-
-## Sample interaction
-```text
-User selects raga, tala, and instrument
-User clicks Generate Music
-App writes generated_music.mid and exposes a download button
-```
+## What these show
+- a representative generation configuration
+- an example symbolic note sequence produced by the model
+- a training/export style log
+- an actual MIDI artifact already present in the repository

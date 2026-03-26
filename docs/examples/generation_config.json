@@ -1,0 +1,10 @@
+{
+  "dataset": "local-midi-folder",
+  "sequence_length": 50,
+  "num_steps": 200,
+  "ui_selection": {
+    "raga": "Yaman",
+    "tala": "Teental",
+    "instrument": "Sitar"
+  }
+}
