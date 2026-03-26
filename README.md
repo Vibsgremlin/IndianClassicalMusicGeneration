@@ -70,3 +70,8 @@ flowchart LR
   - the selected raga, tala, and instrument are exposed in the UI but are not actually used to condition the model output in the current code
   - dataset paths are hard-coded to a local machine, which makes reproduction difficult
   - the repo README previously described files like `main.py` and `requirements.txt` that do not exist in the checked-in project
+
+## Supporting Docs
+- [Architecture diagram](docs/architecture.png)
+- [Evaluation logs and outputs](docs/evaluation.md)
+- [Sample inputs and outputs](docs/sample_io.md)
