@@ -1,90 +1,72 @@
-# Indian Classical Music Generator 🎵
+# IndianClassicalMusicGeneration
 
-## **Overview**
-The **Indian Classical Music Generator** is a deep learning-based system that generates Indian classical music using a **Transformer model** trained on MIDI sequences. Users can select a **Raga, Tala, and Instrument** to generate new compositions. The project features an interactive UI built with **Streamlit**.
+## Problem
+This project explores automatic generation of Indian classical-style music from MIDI note sequences. The goal is to turn existing symbolic music data into new continuations that can be rendered back into MIDI and played or downloaded through a simple Streamlit interface.
 
----
-## **Features**
-- 🎶 **Generates Indian Classical Music** based on MIDI datasets.
-- 🎻 **Supports multiple instruments** like Sitar, Flute, Tabla, and Violin.
-- 🎼 **Uses a Transformer Model** trained on MIDI sequences.
-- 🌐 **Interactive Web UI** built with Streamlit.
-- 📥 **Download generated MIDI files** directly from the UI.
-
----
-## **Installation & Setup**
-### **1. Clone the Repository**
-```bash
-git clone https://github.com/your-username/Indian-Classical-Music-Generator.git
-cd Indian-Classical-Music-Generator
+## System Design
+```mermaid
+flowchart LR
+    MIDI["Local MIDI dataset"] --> Load["MIDI loader"]
+    Load --> Prep["Sequence preprocessing"]
+    Prep --> Train["Transformer-style note predictor"]
+    Train --> Generate["Autoregressive note generation"]
+    Generate --> MIDIOut["generated_music.mid"]
+    MIDIOut --> UI["Streamlit download flow"]
 ```
 
-### **2. Install Dependencies**
-Ensure you have Python 3.8+ installed, then run:
-```bash
-pip install -r requirements.txt
-```
+- Architecture:
+  - data loading and note extraction in [`GenMusic.py`](C:\Users\91965\cars24\github-readme-batch\IndianClassicalMusicGeneration\GenMusic.py) and [`GenMusic2.py`](C:\Users\91965\cars24\github-readme-batch\IndianClassicalMusicGeneration\GenMusic2.py)
+  - sequence modeling with TensorFlow / Keras multi-head attention blocks
+  - MIDI export through `pretty_midi`
+  - a Streamlit UI that lets the user choose raga, tala, and instrument before generating output
+- Components:
+  - model: Transformer-like sequence model over note pitches
+  - data: local MIDI files loaded from a Windows path
+  - UI: Streamlit controls and download button
+  - output: generated MIDI composition
+- There is no external DB, API service, RAG layer, or agent orchestration in this repository.
 
-### **3. Download Dataset**
-Place the MIDI dataset in the project directory:
-```plaintext
-C:\Users\91965\maestro-v2.0.0
-```
-Ensure the dataset contains `.midi` or `.mid` files.
+## Approach
+- Why multi-agent?
+  - Multi-agent is not used here. Music generation is implemented as a single training and inference pipeline around note-sequence modeling.
+- Why RAG?
+  - RAG is not relevant because the project is generating symbolic music from learned sequence patterns, not answering questions over retrieved documents.
+- What the code actually does:
+  - extracts note pitches from MIDI files
+  - converts long songs into fixed-length training windows
+  - predicts the next pitch token from previous note sequences
+  - rolls the model forward step by step to create new notes
+  - converts generated notes back into a MIDI file
 
-### **4. Run the Web App**
-```bash
-streamlit run main.py
-```
-This will launch an interactive web app where you can generate music.
+## Tech Stack
+- Python
+- TensorFlow / Keras
+- PrettyMIDI
+- Librosa
+- NumPy
+- Matplotlib
+- Streamlit
 
----
-## **Usage**
-### **Generating Music**
-1. Open the **web app**.
-2. Select **Raga, Tala, and Instrument**.
-3. Click **Generate Music**.
-4. Download the generated **MIDI file**.
+## Demo
+- Place a MIDI dataset at the hard-coded local path used by the scripts
+- Run the Streamlit app entry script
+- Pick a raga, tala, and instrument in the UI
+- Generate a new composition and download `generated_music.mid`
 
-### **Convert MIDI to MP3 (Optional)**
-Use **FluidSynth** and **FFmpeg**:
-```bash
-fluidsynth -ni soundfont.sf2 generated_music.mid -F output.wav
-ffmpeg -i output.wav output.mp3
-```
+## Results
+- The repo includes a sample generated MIDI artifact, which shows the end-to-end pipeline is wired through from data loading to output generation.
+- The main tangible outcome is a prototype music generator with:
+  - symbolic sequence ingestion
+  - note-level model training
+  - iterative generation
+  - downloadable MIDI output
 
----
-## **Project Structure**
-```plaintext
-📂 Indian-Classical-Music-Generator
-│── main.py  # Main script with model training & UI
-│── model.py  # Transformer model definition
-│── preprocess.py  # Data preprocessing functions
-│── requirements.txt  # Required dependencies
-│── README.md  # Project documentation
-│── generated_music.mid  # Sample output file
-└── 📂 data/  # Contains MIDI dataset
-```
-
----
-## **Tech Stack**
-- **Machine Learning**: TensorFlow, Keras
-- **Music Processing**: PrettyMIDI, Librosa
-- **Web App**: Streamlit
-- **Data**: MIDI dataset (Maestro v2.0.0)
-
----
-## **Contributing**
-1. Fork the repository.
-2. Create a new branch: `git checkout -b feature-branch`
-3. Make changes and commit: `git commit -m "Added feature"`
-4. Push changes: `git push origin feature-branch`
-5. Submit a Pull Request.
-
----
-## **License**
-This project is licensed under the **MIT License**.
-
----
-## **Author**
-Developed by Panitra – https://github.com/Vibsgremlin 
+## Learnings
+- What worked:
+  - using MIDI note sequences keeps the representation lightweight compared with raw audio generation
+  - a Streamlit front end makes the demo easy to use without packaging a full web backend
+  - `GenMusic2.py` adds a more practical training path with batching and reduced sequence length
+- What did not:
+  - the selected raga, tala, and instrument are exposed in the UI but are not actually used to condition the model output in the current code
+  - dataset paths are hard-coded to a local machine, which makes reproduction difficult
+  - the repo README previously described files like `main.py` and `requirements.txt` that do not exist in the checked-in project
